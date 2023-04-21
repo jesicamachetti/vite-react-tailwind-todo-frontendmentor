@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Components/iconos/Header";
 import TodoComputed from "./Components/TodoComputed";
 import TodoCreate from "./Components/TodoCreate";
@@ -6,18 +6,24 @@ import TodoFiltter from "./Components/Todofiltter";
 import TodoFooter from "./Components/TodoFooter";
 import TodoList from "./Components/TodoList";
 
-const initialStateTodos = [
-  { id: 1, title: "Completar online Javascript", completed: true },
-  { id: 2, title: "Ir al gimnasio", completed: false },
-  { id: 3, title: "10 minutos meditación", completed: false },
-  { id: 4, title: "Practicar deporte", completed: false },
-  { id: 5, title: "Pasear a mi perro", completed: false },
+//const initialStateTodos = [
+  //{ id: 1, title: "Completar online Javascript", completed: true },
+  //{ id: 2, title: "Ir al gimnasio", completed: false },
+  //{ id: 3, title: "10 minutos meditación", completed: false },
+  //{ id: 4, title: "Practicar deporte", completed: false },
+  //{ id: 5, title: "Pasear a mi perro", completed: false },
 
-];
+//];
+
+const initialStateTodos = JSON.parse(localStorage.getItem("todos")) || [];
 
 const App = () => {
 
   const [todos, setTodos] = useState(initialStateTodos);
+  useEffect(() => {
+localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
   const createTodo = (title)=> {
     const newTodo = {
       id: Date.now(),
@@ -62,11 +68,11 @@ const App = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-300 bg-[url('./assets/images/bg-mobile-light.jpg')] bg-contain bg-no-repeat dark:bg-gray-900 dark:bg-[url('./assets/images/bg-mobile-dark.jpg')] transition-duration: 1000ms">
+    <div className="min-h-screen bg-gray-300 bg-[url('./assets/images/bg-mobile-light.jpg')] bg-contain bg-no-repeat transition-duration: 1000ms dark:bg-gray-900 dark:bg-[url('./assets/images/bg-mobile-dark.jpg')]  md:bg-[url('./assets/images/bg-desktop-light.jpg')] md:dark:bg-[url('./assets/images/bg-desktop-dark.jpg')]">
 
       <Header/>
 
-      <main className="container mx-auto mt-8 px-4">
+      <main className="container mx-auto mt-8 px-4 md:max-w-xl">
 
       <TodoCreate createTodo={createTodo}/>
 
